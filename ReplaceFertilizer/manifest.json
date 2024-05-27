@@ -6,5 +6,5 @@
   "UniqueID": "jingshenSN2.replace_fertilizer",
   "EntryDll": "ReplaceFertilizer.dll",
   "MinimumApiVersion": "3.0.0",
-  "UpdateKeys": ["nexus:99000"]
+  "UpdateKeys": ["nexus:24550"]
 }
