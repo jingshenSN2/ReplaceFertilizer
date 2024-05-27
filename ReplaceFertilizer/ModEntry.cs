@@ -1,26 +1,28 @@
-using System;
-using Microsoft.Xna.Framework;
+using HarmonyLib;
+using JingshenSN2.ReplaceFertilizer.Patches;
 using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
-using StardewValley;
 
-namespace ReplaceFertilizer
+namespace JingshenSN2.ReplaceFertilizer
 {
     internal sealed class ModEntry : Mod
     {
+        private Harmony? _harmony;
+        public static ModEntry? _instance;
         public override void Entry(IModHelper helper)
         {
-            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
+            _instance = this;
+            ApplyPatch();
         }
 
-        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        public void Info(string message)
         {
-            //在遊戲世界尚未準備完成時，終止函式
-            if (!Context.IsWorldReady)
-                return;
-            //在SAMPI的Console中把玩家按下哪個按鈕的資訊印出
-            this.Monitor.Log($"{Game1.player.Name} pressed {e.Button}.", LogLevel.Debug);
+            Monitor.Log(message, LogLevel.Info);
+        }
+
+        private void ApplyPatch()
+        {
+            _harmony = new Harmony(ModManifest.UniqueID);
+            new HoeDirtPatch(Monitor).Apply(_harmony);
         }
     }
 }
